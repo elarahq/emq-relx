@@ -1,4 +1,2 @@
-emq_recon.
-emq_modules.
-emq_retainer.
 emq_dashboard.
+emqttd_plugin_housing.

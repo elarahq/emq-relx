@@ -1,39 +1,19 @@
 PROJECT = emq-relx
-PROJECT_DESCRIPTION = Release Project for the EMQ Broker
-PROJECT_VERSION = 2.1.0
+PROJECT_DESCRIPTION = Release Project for the Housing EMQ Broker
+PROJECT_VERSION = 2.1
 
-DEPS = emqttd emq_modules emq_dashboard emq_retainer emq_recon emq_reloader \
-       emq_auth_clientid emq_auth_username emq_auth_ldap emq_auth_http \
-       emq_auth_mysql emq_auth_pgsql emq_auth_redis emq_auth_mongo \
-       emq_sn emq_coap emq_stomp emq_plugin_template \
-
-# emq deps
-dep_emqttd        = git https://github.com/emqtt/emqttd v2.1.0-beta.1
-dep_emq_modules   = git https://github.com/emqtt/emq-modules v2.1.0-beta.1
-dep_emq_dashboard = git https://github.com/emqtt/emq-dashboard v2.1.0-beta.1
-dep_emq_retainer  = git https://github.com/emqtt/emq-retainer v2.1.0-beta.1
-dep_emq_recon     = git https://github.com/emqtt/emq-recon v2.1.0-beta.1
-dep_emq_reloader  = git https://github.com/emqtt/emq-reloader v2.1.0-beta.1
-
-# emq auth/acl plugins
-dep_emq_auth_clientid = git https://github.com/emqtt/emq-auth-clientid v2.1.0-beta.1
-dep_emq_auth_username = git https://github.com/emqtt/emq-auth-username v2.1.0-beta.1
-dep_emq_auth_ldap     = git https://github.com/emqtt/emq-auth-ldap v2.1.0-beta.1
-dep_emq_auth_http     = git https://github.com/emqtt/emq-auth-http v2.1.0-beta.1
-dep_emq_auth_mysql    = git https://github.com/emqtt/emq-auth-mysql v2.1.0-beta.1
-dep_emq_auth_pgsql    = git https://github.com/emqtt/emq-auth-pgsql v2.1.0-beta.1
-dep_emq_auth_redis    = git https://github.com/emqtt/emq-auth-redis v2.1.0-beta.1
-dep_emq_auth_mongo    = git https://github.com/emqtt/emq-auth-mongo v2.1.0-beta.1
-
-# mqtt-sn, coap and stomp
-dep_emq_sn    = git https://github.com/emqtt/emq-sn v0.2.7
-dep_emq_coap  = git https://github.com/emqtt/emq-coap v0.2.7
-dep_emq_stomp = git https://github.com/emqtt/emq-stomp v2.1.0-beta.1
-
-# plugin template
-dep_emq_plugin_template = git https://github.com/emqtt/emq-plugin-template v2.1.0-beta.1
+DEPS = emqttd emq_dashboard
+# all the build and runtime deps
+dep_emqttd = git https://github.com/emqtt/emqttd.git master
+dep_emq_dashboard = git https://github.com/emqtt/emq-dashboard master
 
 # COVER = true
+BUILD_DEPS = elixir_build_plugin #only load the private repo so that the plugin can be loaded below
+DEP_PLUGINS = elixir_build_plugin #pick plugins.mk from the dependency
+dep_elixir_build_plugin = cp ./priv/emq_housing_build
+
+ELIXIR_DEPS = emqttd_plugin_housing #Specify dependency to be compiled using elixir
+dep_emqttd_plugin_housing = cp /home/dev/workspace/public_repo/housing.iris.auth
 
 include erlang.mk
 
@@ -42,7 +22,7 @@ plugins:
 	@mkdir -p rel/conf/plugins/ rel/schema/
 	@for conf in $(DEPS_DIR)/*/etc/*.conf* ; do \
 		if [ "emq.conf" = "$${conf##*/}" ] ; then \
-			cp $${conf} rel/conf/ ; \
+			echo "Skipping emq.conf file from dep"; \
 		elif [ "acl.conf" = "$${conf##*/}" ] ; then \
 			cp $${conf} rel/conf/ ; \
 		else \
@@ -52,6 +32,9 @@ plugins:
 	@for schema in $(DEPS_DIR)/*/priv/*.schema ; do \
 		cp $${schema} rel/schema/ ; \
 	done
+	@cp ./etc/emq.conf rel/conf/
+	@rm rel/schema/emq.schema
+	@cp ./etc/emq.schema rel/schema/
 
 app:: plugins
 
