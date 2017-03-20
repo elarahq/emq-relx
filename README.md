@@ -1,6 +1,9 @@
 emq-relx
 ========
 
+In case a release is generated and config for plugin needs o be updated. Please update the rel/config/plugin/emqttd_plugin_housing.config
+and restart emq
+
 The Release Project for the *EMQ* Broker.
 
 NOTICE: Requires Erlang/OTP R18+ to build.

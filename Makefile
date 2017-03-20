@@ -14,7 +14,9 @@ dep_elixir_build_plugin = cp ./priv/emq_housing_build
 
 ELIXIR_DEPS = emqttd_plugin_housing #Specify dependency to be compiled using elixir
 dep_emqttd_plugin_housing = cp /home/dev/workspace/public_repo/housing.iris.auth
+#dep_emqttd_plugin_housing = git git@github.com:elarahq/housing.iris.auth.git chat-refactoring
 
+export PATH := $(PWD)/.erlang.mk/rebar:$(PATH);
 include erlang.mk
 
 plugins:
@@ -25,6 +27,9 @@ plugins:
 			echo "Skipping emq.conf file from dep"; \
 		elif [ "acl.conf" = "$${conf##*/}" ] ; then \
 			cp $${conf} rel/conf/ ; \
+		elif [ "plugin.config.sample" = "$${conf##*/}" ] ; then \
+		    echo "Copying plugin module"; \
+        	cp $${conf} rel/conf/plugins/emqttd_plugin_housing.config ; \
 		else \
 			cp $${conf} rel/conf/plugins ; \
 		fi ; \
