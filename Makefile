@@ -27,8 +27,7 @@ plugins:
 		elif [ "acl.conf" = "$${conf##*/}" ] ; then \
 			cp $${conf} rel/conf/ ; \
 		elif [ "plugin.config.sample" = "$${conf##*/}" ] ; then \
-		    echo "Copying plugin module"; \
-        	cp $${conf} rel/conf/plugins/emqttd_plugin_housing.config ; \
+		    echo "Skipping housing plugin module sample"; \
 		else \
 			cp $${conf} rel/conf/plugins ; \
 		fi ; \
