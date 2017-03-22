@@ -1,0 +1,3 @@
+- name: emqttd
+  command: ./_rel/emqttd/bin/emqttd foreground
+  stdout_logfile: log/emqttd.log
