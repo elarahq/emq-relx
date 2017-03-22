@@ -1,0 +1,17 @@
+pkgs:
+  - libdb
+  - openssl-libs
+  - libffi
+  - bzip2-libs
+  - sqlite
+  - gdbm
+  - expat
+  - zlib
+  - readline
+  - ncurses-libs
+
+build_pkgs:
+  - bzip2-devel
+  - sqlite-devel
+  - libxslt-devel
+  - openssl-devel

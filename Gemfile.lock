@@ -1,0 +1,16 @@
+GEM
+  remote: https://rubygems.org/
+  remote: https://zzyQroGTbtzsH97mnQyE@repo.fury.io/loconsolutions/
+  specs:
+    housing_dply (0.2.11)
+      rake
+    rake (12.0.0)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  housing_dply!
+
+BUNDLED WITH
+   1.12.4
