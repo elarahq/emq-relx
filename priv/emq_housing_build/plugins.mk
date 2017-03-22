@@ -131,7 +131,7 @@ $(eval d := $(DEPS_DIR)/$1/elixir_deps.mk)
 $d: $(DEPS_DIR)/elixir
 	$(eval DEP_NAME := $(call dep_name,$1))
 	$(eval DEP_STR := $(if $(filter-out $1,$(DEP_NAME)),$1,"$1 ($(DEP_NAME))"))
-	$(verbose) mkdir -p $(DEPS_DIR)
+	$(verbose) /usr/bin/mkdir -p $(DEPS_DIR)
 	$(dep_verbose) $(call dep_fetch_$(strip $(call dep_fetch,$(1))),$(1))
 	$(eval e := $(ELIXIR_BIN))
 	$(eval m := $(ELIXIR_MIX_ENV))
@@ -147,7 +147,7 @@ elixir-deps: $(ALL_ELIXIR_DEPS_D)
 endif
 
 $(DEPS_DIR)/elixir:
-	$(verbose) mkdir -p $(DEPS_DIR)
+	$(verbose) /usr/bin/mkdir -p $(DEPS_DIR)
 	$(call dep_verbose,elixir) $(call dep_fetch_$(strip $(call dep_fetch,elixir)),elixir)
 	$(verbose) $(MAKE) -C $(DEPS_DIR)/elixir
 	$(call dep_verbose,hex)
