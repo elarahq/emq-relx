@@ -14,12 +14,8 @@ namespace :app do
     #
     # also add elixir to pkgs.yml under build_pkgs
     sh "./build.sh"
-    archive "emq-relx", git: false do
+    archive "emq-relx", gnu_tar: true do
       add "rel"
-      add "pkgs.yml"
-      add "Gemfile"
-      add "Gemfile.lock"
-      add "dply"
       add "_rel"
       add "data"
       add_bundle
