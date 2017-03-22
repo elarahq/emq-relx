@@ -7,7 +7,7 @@ namespace :app do
   task :build do
     # if u want to build/compile using system elixir pkg, 
     # then u need to remove github elixir dependency from
-    # emqttd_plugin_housing/rebar.config and add this line
+    # priv/emq_housing_build/plugins.mk and add the line below
     #
     #
     # sh "ln -sf /usr/lib/elixir -T deps/elixir"
@@ -15,9 +15,10 @@ namespace :app do
     # also add elixir to pkgs.yml under build_pkgs
     sh "./build.sh"
     archive "emq-relx", gnu_tar: true do
-      add "rel"
       add "_rel"
-      add "data"
+      #For checking the config through which release was generated.
+      add "relx.config"
+      add "vars.config"
       add_bundle
     end
   end

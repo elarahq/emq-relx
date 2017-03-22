@@ -23,11 +23,11 @@ plugins:
 	@mkdir -p rel/conf/plugins/ rel/schema/
 	@for conf in $(DEPS_DIR)/*/etc/*.conf* ; do \
 		if [ "emq.conf" = "$${conf##*/}" ] ; then \
-			echo "Skipping emq.conf file from dep"; \
+			echo "Skipping emq.conf file from source emqttd repo"; \
 		elif [ "acl.conf" = "$${conf##*/}" ] ; then \
 			cp $${conf} rel/conf/ ; \
 		elif [ "plugin.config.sample" = "$${conf##*/}" ] ; then \
-		    echo "Skipping housing plugin module sample"; \
+	    	echo "Skipping sample config from housing plugin module sample "; \
 		else \
 			cp $${conf} rel/conf/plugins ; \
 		fi ; \
@@ -38,6 +38,11 @@ plugins:
 	@cp ./etc/emq.conf rel/conf/
 	@rm rel/schema/emq.schema
 	@cp ./etc/emq.schema rel/schema/
+
+elixir_clean:
+	@rm -rf deps/logger_file_backend 
+	@rm -rf deps/emqttd_plugin_housing 
+	@rm -rf deps/hackney
 
 app:: plugins
 
