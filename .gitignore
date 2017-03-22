@@ -16,5 +16,5 @@ data/configs/*.args
 rel/
 _rel/
 deps/
-priv/elixir
+priv/elixir/
 deps/

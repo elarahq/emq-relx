@@ -13,7 +13,7 @@ namespace :app do
     # sh "ln -sf /usr/lib/elixir -T deps/elixir"
     #
     # also add elixir to pkgs.yml under build_pkgs
-    sh "make"
+    sh "./build.sh"
     archive "emq-relx", git: false do
       add "rel"
       add "pkgs.yml"
