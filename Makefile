@@ -13,7 +13,7 @@ DEP_PLUGINS = elixir_build_plugin #pick plugins.mk from the dependency
 dep_elixir_build_plugin = cp ./priv/emq_housing_build
 
 ELIXIR_DEPS = emqttd_plugin_housing #Specify dependency to be compiled using elixir
-#dep_emqttd_plugin_housing = cp /home/dev/workspace/public_repo/housing.iris.auth
+#dep_emqttd_plugin_housing = cp /home/dev/workspace/housing.iris.auth
 dep_emqttd_plugin_housing = git git@github.com:elarahq/housing.iris.auth.git master
 
 include erlang.mk
@@ -43,6 +43,7 @@ elixir_clean:
 	@rm -rf deps/logger_file_backend 
 	@rm -rf deps/emqttd_plugin_housing 
 	@rm -rf deps/hackney
+	@rm -rf deps/elixir_build_plugin
 
 app:: plugins
 
