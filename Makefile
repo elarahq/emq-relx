@@ -4,7 +4,7 @@ PROJECT_VERSION = 2.1
 
 DEPS = emqttd emq_dashboard
 # all the build and runtime deps
-dep_emqttd = git https://github.com/emqtt/emqttd.git master
+dep_emqttd = git https://github.com/emqtt/emqttd.git v2.0.7
 dep_emq_dashboard = git https://github.com/emqtt/emq-dashboard master
 
 # COVER = true
