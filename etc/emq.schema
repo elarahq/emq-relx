@@ -367,14 +367,14 @@ end}.
 
 %% @doc Client Idle Timeout.
 {mapping, "mqtt.client.idle_timeout", "emqttd.client", [
-  {default, "20s"},
+  {default, "30s"},
   {datatype, {duration, ms}}
 ]}.
 
 %% @doc Enable Stats of Client.
 {mapping, "mqtt.client.enable_stats", "emqttd.client", [
   {default, off},
-  {datatype, flag}
+  {datatype, [{duration, ms}, flag]}
 ]}.
 
 %% @doc Client
@@ -420,19 +420,13 @@ end}.
 %% @doc Enable Stats
 {mapping, "mqtt.session.enable_stats", "emqttd.session", [
   {default, off},
-  {datatype, flag}
+  {datatype, [{duration, ms}, flag]}
 ]}.
 
 %% @doc Session Expiry Interval
 {mapping, "mqtt.session.expiry_interval", "emqttd.session", [
   {default, "2h"},
   {datatype, {duration, ms}}
-]}.
-
-%% @doc Statistics Collection Interval(seconds)
-{mapping, "mqtt.session.collect_interval", "emqttd.session", [
-  {default, 0},
-  {datatype, integer}
 ]}.
 
 {translation, "emqttd.session", fun(Conf) ->
@@ -442,7 +436,6 @@ end}.
    {max_awaiting_rel,  cuttlefish:conf_get("mqtt.session.max_awaiting_rel", Conf)},
    {await_rel_timeout, cuttlefish:conf_get("mqtt.session.await_rel_timeout", Conf)},
    {enable_stats,      cuttlefish:conf_get("mqtt.session.enable_stats", Conf)},
-   {collect_interval, cuttlefish:conf_get("mqtt.session.collect_interval", Conf)},
    {expiry_interval,   cuttlefish:conf_get("mqtt.session.expiry_interval", Conf)}]
 end}.
 
@@ -812,4 +805,3 @@ end}.
      {busy_port, cuttlefish:conf_get("sysmon.busy_port", Conf)},
      {busy_dist_port, cuttlefish:conf_get("sysmon.busy_dist_port", Conf)}]
 end}.
-

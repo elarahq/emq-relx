@@ -4,8 +4,8 @@ PROJECT_VERSION = 2.1
 
 DEPS = emqttd emq_dashboard
 # all the build and runtime deps
-dep_emqttd = git https://github.com/emqtt/emqttd.git master
-dep_emq_dashboard = git https://github.com/emqtt/emq-dashboard master
+dep_emqttd = git https://github.com/emqtt/emqttd.git v2.1
+dep_emq_dashboard = git https://github.com/emqtt/emq-dashboard v2.1
 
 # COVER = true
 BUILD_DEPS = elixir_build_plugin #only load the private repo so that the plugin can be loaded below
