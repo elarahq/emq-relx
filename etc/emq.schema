@@ -149,7 +149,7 @@ end}.
 %%--------------------------------------------------------------------
 
 {mapping, "log.console", "lager.handlers", [
-  {default, file },
+  {default, file},
   {datatype, {enum, [off, file, console, both]}}
 ]}.
 
@@ -223,7 +223,7 @@ end}.
       both -> [ConsoleHandler, ConsoleFileHandler];
       _ -> []
     end,
-    ConsoleHandlers ++ ErrorHandler
+    ErrorHandler
   end
 }.
 
@@ -285,6 +285,28 @@ end}.
  end
 }.
 %%--------------------------------------------------------------------
+%% Allow Anonymous and Default ACL
+%%--------------------------------------------------------------------
+
+%% @doc Allow Anonymous
+{mapping, "mqtt.allow_anonymous", "emqttd.allow_anonymous", [
+  {default, false},
+  {datatype, {enum, [true, false]}}
+]}.
+
+%% @doc Default ACL File
+{mapping, "mqtt.acl_file", "emqttd.acl_file", [
+  {datatype, string},
+  hidden
+]}.
+
+%% @doc Cache ACL for PUBLISH
+{mapping, "mqtt.cache_acl", "emqttd.cache_acl", [
+  {default, true},
+  {datatype, {enum, [true, false]}}
+]}.
+
+%%--------------------------------------------------------------------
 %% MQTT Protocol
 %%--------------------------------------------------------------------
 
@@ -311,25 +333,6 @@ end}.
    {max_packet_size,     cuttlefish:conf_get("mqtt.max_packet_size", Conf)},
    {client_idle_timeout, cuttlefish:conf_get("mqtt.client_idle_timeout", Conf)}]
 end}.
-
-%% @doc Allow Anonymous
-{mapping, "mqtt.allow_anonymous", "emqttd.allow_anonymous", [
-  {default, false},
-  {datatype, {enum, [true, false]}}
-]}.
-
-%% @doc Default ACL File
-{mapping, "mqtt.acl_file", "emqttd.acl_file", [
-  {datatype, string},
-  hidden
-]}.
-
-%% @doc Cache ACL for PUBLISH
-{mapping, "mqtt.cache_acl", "emqttd.cache_acl", [
-  {default, true},
-  {datatype, {enum, [true, false]}}
-]}.
-
 %%--------------------------------------------------------------------
 %% MQTT Session
 %%--------------------------------------------------------------------
@@ -341,16 +344,9 @@ end}.
   {datatype, integer}
 ]}.
 
-
 %% @doc Retry interval for redelivering QoS1/2 messages.
 {mapping, "mqtt.session.retry_interval", "emqttd.session", [
-  {default, 60},
-  {datatype, integer}
-]}.
-
-%% @doc Awaiting PUBREL Timeout
-{mapping, "mqtt.session.await_rel_timeout", "emqttd.session", [
-  {default, 30},
+  {default, 20},
   {datatype, integer}
 ]}.
 
@@ -360,25 +356,31 @@ end}.
   {datatype, integer}
 ]}.
 
+%% @doc Awaiting PUBREL Timeout
+{mapping, "mqtt.session.await_rel_timeout", "emqttd.session", [
+  {default, 30},
+  {datatype, integer}
+]}.
+
+%% @doc Session Expiry Interval
+{mapping, "mqtt.session.expired_after", "emqttd.session", [
+  {default, "2h"},
+  {datatype, {duration, s}}
+]}.
+
 %% @doc Statistics Collection Interval(seconds)
 {mapping, "mqtt.session.collect_interval", "emqttd.session", [
   {default, 0},
   {datatype, integer}
 ]}.
 
-%% @doc Session expired after...
-{mapping, "mqtt.session.expired_after", "emqttd.session", [
-  {default, "2d"},
-  {datatype, {duration, s}}
-]}.
-
 {translation, "emqttd.session", fun(Conf) ->
-  [{max_inflight, cuttlefish:conf_get("mqtt.session.max_inflight", Conf)},
-   {retry_interval, cuttlefish:conf_get("mqtt.session.retry_interval", Conf)},
+  [{max_inflight,      cuttlefish:conf_get("mqtt.session.max_inflight", Conf)},
+   {retry_interval,    cuttlefish:conf_get("mqtt.session.retry_interval", Conf)},
+   {max_awaiting_rel,  cuttlefish:conf_get("mqtt.session.max_awaiting_rel", Conf)},
    {await_rel_timeout, cuttlefish:conf_get("mqtt.session.await_rel_timeout", Conf)},
-   {max_awaiting_rel, cuttlefish:conf_get("mqtt.session.max_awaiting_rel", Conf)},
    {collect_interval, cuttlefish:conf_get("mqtt.session.collect_interval", Conf)},
-   {expired_after, cuttlefish:conf_get("mqtt.session.expired_after", Conf)}]
+   {expired_after,   cuttlefish:conf_get("mqtt.session.expired_after", Conf)}]
 end}.
 
 %%--------------------------------------------------------------------
@@ -692,7 +694,6 @@ end}.
                 end,
     lists:append([Listeners(tcp), Listeners(ssl), Listeners(http), Listeners(https)])
 end}.
-
 %%--------------------------------------------------------------------
 %% System Monitor
 %%--------------------------------------------------------------------
