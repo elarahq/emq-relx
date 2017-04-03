@@ -24,7 +24,14 @@ namespace :app do
   end
 
   task "deploy:git" do
-    
+    sh "./build.sh"
+    archive "emq-relx", gnu_tar: true do
+      add "_rel"
+      #For checking the config through which release was generated.
+      add "relx.config"
+      add "vars.config"
+      add_bundle
+    sh "sv rr"
   end
 
   task "deploy:archive" do
