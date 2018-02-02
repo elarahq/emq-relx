@@ -2,10 +2,11 @@ PROJECT = emq-relx
 PROJECT_DESCRIPTION = Release Project for the Housing EMQ Broker
 PROJECT_VERSION = 2.1
 
-DEPS = emqttd emq_dashboard
+DEPS = emqttd emq_dashboard esockd
 # all the build and runtime deps
 dep_emqttd = git https://github.com/emqtt/emqttd.git v2.0.7
 dep_emq_dashboard = git https://github.com/emqtt/emq-dashboard master
+dep_esockd = git https://github.com/emqtt/esockd v5.0.1
 
 # COVER = true
 BUILD_DEPS = elixir_build_plugin #only load the private repo so that the plugin can be loaded below
@@ -13,7 +14,7 @@ DEP_PLUGINS = elixir_build_plugin #pick plugins.mk from the dependency
 dep_elixir_build_plugin = cp ./priv/emq_housing_build
 
 ELIXIR_DEPS = emqttd_plugin_housing #Specify dependency to be compiled using elixir
-#dep_emqttd_plugin_housing = cp /home/dev/workspace/housing.iris.auth
+#dep_emqttd_plugin_housing = cp /home/dev/codebase/housing.iris.auth
 dep_emqttd_plugin_housing = git git@github.com:elarahq/housing.iris.auth.git master
 
 include erlang.mk
